@@ -2,7 +2,8 @@
 //!
 //! Environment variables:
 //! * `WNVCTL_DEMO=1` — simulated GPU and daemon, nothing is read or written;
-//! * `WNVCTL_SCREENSHOTS=<dir>` — demo mode that saves a PNG of every page in
+//! * `WNVCTL_SCREENSHOTS=<dir>` — saves a PNG of every page (demo data unless
+//!   `WNVCTL_DEMO=0`) in
 //!   every language to `<dir>`, then exits.
 
 mod app;

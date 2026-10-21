@@ -154,7 +154,11 @@ impl App {
                 pending: Default::default(),
             }
         });
-        let demo = shots.is_some() || std::env::var_os("WNVCTL_DEMO").is_some_and(|v| v != "0");
+        // Screenshots use the demo unless WNVCTL_DEMO=0 asks for real data.
+        let demo = match std::env::var_os("WNVCTL_DEMO") {
+            Some(v) => v != "0",
+            None => shots.is_some(),
+        };
         let store = if demo {
             demo_store()
         } else {

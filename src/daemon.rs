@@ -216,12 +216,8 @@ impl Slot {
     }
 
     fn reset(&mut self) -> Result<Vec<String>, String> {
-        let mut changes = self.apply(&Profile::default())?;
-        // An explicit reset also takes the fans back from other tools.
-        if self.gpu.info.fans > 0 && self.gpu.fans_manual() {
-            self.gpu.set_fans_auto().map_err(|e| e.to_string())?;
-            changes.push("fans → automatic".into());
-        }
+        // Fans driven by another tool (CoolerControl…) are left alone.
+        let changes = self.apply(&Profile::default())?;
         self.active = None;
         self.applied = None;
         Ok(changes)
