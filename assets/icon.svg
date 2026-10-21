@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#232833"/>
+      <stop offset="1" stop-color="#11141a"/>
+    </linearGradient>
+    <linearGradient id="arc" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#4ade80"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="240" height="240" rx="56" fill="url(#bg)"/>
+  <rect x="8.5" y="8.5" width="239" height="239" rx="55.5" fill="none" stroke="#ffffff" stroke-opacity="0.08"/>
+  <!-- gauge track and value arc (270° sweep, centre 128,136, r 78) -->
+  <path d="M 72.85 191.15 A 78 78 0 1 1 183.15 191.15" fill="none" stroke="#2c323e" stroke-width="18" stroke-linecap="round"/>
+  <path d="M 72.85 191.15 A 78 78 0 1 1 201.4 110.0" fill="none" stroke="url(#arc)" stroke-width="18" stroke-linecap="round"/>
+  <!-- pulse line -->
+  <polyline points="70,142 98,142 112,112 132,168 148,128 158,142 186,142" fill="none" stroke="#e6e9ef" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,8 @@
+# /etc/wnvctl/daemon.toml — optional, these are the defaults.
+
+# Groups whose members may change GPU settings (root always may).
+allowed_groups = ["wheel", "wnvctl"]
+
+# Seconds between checks that the active profile is still applied
+# (re-applied after suspend/resume or a driver reload). 0 = off.
+watchdog_secs = 10

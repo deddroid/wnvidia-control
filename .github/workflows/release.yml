@@ -1,0 +1,53 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing tag to (re)build
+        required: true
+
+permissions:
+  contents: write
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Test
+        run: cargo test --release
+      - name: Build
+        # No build machine paths in the binaries.
+        run: |
+          export RUSTFLAGS="--remap-path-prefix=$GITHUB_WORKSPACE=/build --remap-path-prefix=${CARGO_HOME:-$HOME/.cargo}=/cargo"
+          cargo build --release --locked
+      - name: Package
+        run: |
+          tag="${{ inputs.tag || github.ref_name }}"
+          name=wnvctl-${tag#v}-linux-x86_64
+          echo "TAG=$tag" >> "$GITHUB_ENV"
+          mkdir -p "$name/icons"
+          cp target/release/wnvctl target/release/wnvctl-gui "$name/"
+          cp LICENSE README.md README.it.md CHANGELOG.md install.sh "$name/"
+          cp packaging/linux/wnvctl.service packaging/linux/wnvctl.sysusers \
+             packaging/linux/wnvctl.desktop packaging/linux/daemon.toml "$name/"
+          cp assets/icon.svg assets/icon-*.png "$name/icons/"
+          tar czf "$name.tar.gz" "$name"
+          sha256sum "$name.tar.gz" > "$name.tar.gz.sha256"
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG }}
+          files: |
+            wnvctl-*.tar.gz
+            wnvctl-*.tar.gz.sha256
+          generate_release_notes: true

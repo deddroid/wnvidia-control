@@ -1,0 +1,24 @@
+[Unit]
+Description=wnvctl NVIDIA GPU tuning daemon
+Documentation=https://github.com/deddroid/wnvidia-control
+After=systemd-modules-load.service nvidia-persistenced.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/wnvctl daemon
+# Fans go back to automatic control on stop (SIGTERM).
+Restart=on-failure
+RestartSec=3
+RuntimeDirectory=wnvctl
+# Keeps the driver's stock values (stock.toml) across restarts until reboot.
+RuntimeDirectoryPreserve=yes
+StateDirectory=wnvctl
+ConfigurationDirectory=wnvctl
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+NoNewPrivileges=yes
+LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target

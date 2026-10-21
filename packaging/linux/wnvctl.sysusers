@@ -1,0 +1,2 @@
+# Members of this group (and of wheel) may change GPU settings through wnvctl.
+g wnvctl - -

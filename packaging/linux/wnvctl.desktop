@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=wnvctl
+GenericName=NVIDIA GPU Control
+GenericName[it]=Controllo GPU NVIDIA
+Comment=Overclock, undervolt, power limit and fan curves for NVIDIA GPUs
+Comment[it]=Overclock, undervolt, limite di potenza e curve ventole per GPU NVIDIA
+Exec=wnvctl-gui
+Icon=wnvctl
+Terminal=false
+Categories=System;Settings;HardwareSettings;
+Keywords=nvidia;gpu;overclock;undervolt;fan;power;
+StartupWMClass=wnvctl
