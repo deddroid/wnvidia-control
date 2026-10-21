@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1 — 2026-10-21
+
+- `wnvctl power`: prints only the GPU power draw, for overlays such as
+  MangoHud/GOverlay (`exec=wnvctl power`). Works on cards where the overlay's
+  own reading shows 0 W (driver samples fallback).
+- Reset leaves fans driven by other tools (CoolerControl…) alone.
+
 ## 0.1.0 — 2026-10-21
 
 First release.

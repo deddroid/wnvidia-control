@@ -87,6 +87,17 @@ enum Cmd {
         #[arg(long, conflicts_with = "profile")]
         clear: bool,
     },
+    /// Print only the power draw (for overlays, e.g. MangoHud `exec=wnvctl power`).
+    Power {
+        #[arg(short, long, default_value_t = 0)]
+        gpu: u32,
+        /// Decimal places.
+        #[arg(short, long, default_value_t = 0)]
+        decimals: usize,
+        /// Leave out the " W" unit.
+        #[arg(long)]
+        no_unit: bool,
+    },
     /// Run the root daemon (used by the systemd service).
     Daemon,
 }
@@ -107,6 +118,15 @@ type Res = Result<(), Box<dyn std::error::Error>>;
 fn run(cmd: Cmd) -> Res {
     match cmd {
         Cmd::Daemon => wnvctl::daemon::run().map_err(Into::into),
+        Cmd::Power {
+            gpu,
+            decimals,
+            no_unit,
+        } => {
+            let w = f64::from(wnvctl::gpu::power_now(gpu)?) / 1000.0;
+            println!("{w:.decimals$}{}", if no_unit { "" } else { " W" });
+            Ok(())
+        }
         Cmd::List => {
             for g in Gpu::all()? {
                 let i = &g.info;

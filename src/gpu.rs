@@ -56,6 +56,35 @@ pub fn nvml() -> Result<&'static Nvml, GpuError> {
         .map_err(|e| GpuError::Init(e.clone()))
 }
 
+/// Power draw of GPU `index` in mW, with as few NVML calls as possible (for
+/// overlays that run a command every frame period). Falls back to the
+/// average of the driver's power samples (about the last second) where the
+/// instant reading is unsupported.
+pub fn power_now(index: u32) -> Result<u32, GpuError> {
+    let dev = nvml()?
+        .device_by_index(index)
+        .map_err(GpuError::nvml("open device"))?;
+    match dev.power_usage() {
+        Err(NvmlError::NotSupported) => {}
+        r => return r.map_err(GpuError::nvml("power usage")),
+    }
+    let samples = dev
+        .samples(Sampling::Power, None)
+        .map_err(GpuError::nvml("power samples"))?;
+    let (sum, n) = samples
+        .iter()
+        .fold((0u64, 0u64), |(s, n), x| match x.value {
+            SampleValue::U32(v) => (s + u64::from(v), n + 1),
+            _ => (s, n),
+        });
+    sum.checked_div(n)
+        .map(|avg| avg as u32)
+        .ok_or(GpuError::Nvml {
+            what: "power samples",
+            err: NvmlError::NotFound,
+        })
+}
+
 /// How the power draw is read on this GPU.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum PowerSource {
