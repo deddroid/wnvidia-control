@@ -87,6 +87,17 @@ impostazioni in *Regolazioni* e *Ventole*, poi premi **Applica**; salvale con
 **Salva come profilo**. I comandi da terminale e il formato dei profili sono
 descritti nel [README inglese](README.md#usage).
 
+### Potenza in MangoHud / GOverlay
+
+Sulle schede dove la lettura istantanea non è supportata (MangoHud mostra
+`0W`), aggiungi in `~/.config/MangoHud/MangoHud.conf` (o nelle opzioni
+personalizzate di GOverlay) al posto di `gpu_power`:
+
+```ini
+custom_text=GPU W
+exec=wnvctl power
+```
+
 ## Limiti noti
 
 - Le impostazioni si perdono al riavvio: usa *Applica all'avvio*.

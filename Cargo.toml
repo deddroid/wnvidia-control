@@ -1,6 +1,6 @@
 [package]
 name = "wnvctl"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 rust-version = "1.88"
 description = "Overclocking, undervolting, power limit and fan curves for NVIDIA GPUs on Linux (Wayland and X11)"

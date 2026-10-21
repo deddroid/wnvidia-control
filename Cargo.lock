@@ -3438,7 +3438,7 @@ dependencies = [
 
 [[package]]
 name = "wnvctl"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "clap",
  "ctrlc",

@@ -111,7 +111,21 @@ wnvctl apply Quiet                  # a saved profile (or a .toml file)
 wnvctl startup Quiet                # apply at boot (--clear to remove)
 wnvctl reset                        # driver defaults, fans automatic
 wnvctl profiles
+wnvctl power                        # only the power draw, e.g. "53 W"
 ```
+
+### Power in MangoHud / GOverlay
+
+On cards where the instant power reading is unsupported (MangoHud shows
+`0W`), add these lines to `~/.config/MangoHud/MangoHud.conf` (or GOverlay's
+custom options) instead of `gpu_power`:
+
+```ini
+custom_text=GPU W
+exec=wnvctl power
+```
+
+Each call takes about 20 ms and MangoHud runs it outside the render thread.
 
 Use `-g <index|UUID|PCI bus>` to pick a GPU when you have more than one.
 
