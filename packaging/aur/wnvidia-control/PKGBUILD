@@ -17,7 +17,7 @@ backup=('etc/wnvctl/daemon.toml')
 install=wnvidia-control.install
 options=('!lto')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('SKIP')
+sha256sums=('1a50b9d0dc0e1d02b1c8876b7634b3676dc17293f4213b0400ad1173a3c2dc19')
 
 prepare() {
   cd "$pkgname-$pkgver"
